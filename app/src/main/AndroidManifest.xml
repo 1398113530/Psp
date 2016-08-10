@@ -35,7 +35,7 @@
         android:name="org.ppsspp.ppsspp.CustomApplication"
         android:allowBackup="true"
         android:banner="@drawable/tv_banner"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
         android:logo="@drawable/ic_banner">
