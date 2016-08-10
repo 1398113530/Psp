@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
 
+import com.xiaolu.psp9100220.R;
+
 /**
  * This class will respond to android.intent.action.CREATE_SHORTCUT intent from
  * launcher homescreen. Register this class in AndroidManifest.xml.

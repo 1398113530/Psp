@@ -267,7 +267,16 @@ public class NativeActivity extends Activity implements SurfaceHolder.Callback {
 
 		NativeApp.audioConfig(optimalFramesPerBuffer, optimalSampleRate);
 		NativeApp.init(model, deviceType, languageRegion, apkFilePath, dataDir, externalStorageDir, libraryDir, cacheDir, shortcutParam, Build.VERSION.SDK_INT, Build.BOARD);
-
+		Log.i("joyce","model=" + model + "\n" +
+				"deviceType=" + deviceType + "\n" +
+				"languageRegion=" + languageRegion + "\n" +
+				"apkFilePath=" + apkFilePath + "\n" +
+				"dataDir=" + dataDir + "\n" +
+				"externalStorageDir=" + externalStorageDir + "\n" +
+				"libraryDir=" + libraryDir  + "\n" +
+				"cacheDir=" + cacheDir + "\n" +
+				"shortcutParam=" + shortcutParam
+			);
 		// Allow C++ to tell us to use JavaGL or not.
 		javaGL = "true".equalsIgnoreCase(NativeApp.queryConfig("androidJavaGL"));
 
