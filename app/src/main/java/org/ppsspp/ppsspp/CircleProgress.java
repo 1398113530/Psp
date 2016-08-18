@@ -46,6 +46,7 @@ public class CircleProgress extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.save();
         // 绘制遮罩
         float yHeight = getProgress() / (float) getMax() * getHeight();
         float radius = getWidth() / 2f;
