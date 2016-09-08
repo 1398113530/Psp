@@ -58,6 +58,7 @@ public class DownloadActivity extends Activity {
     private String pspFileUrl = "http://test-gd1.xiaoji001.com/rom/psp/";    //9100220 9100075
     private String url2Xiaolu = "http://test.api.kuaiyouxi.com/game/simulator.php";
     private boolean isFromXiaolu = false;
+
     private FileDownloadListener fileDownloadListener = new FileDownloadListener() {
         @Override
         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
@@ -85,7 +86,8 @@ public class DownloadActivity extends Activity {
             LogUtils.d(task.getFilename());
             mProgressBar.setProgress(100);
             mDownloadState.setText("下载完成");
-            new UnzipTask().execute("/sdcard/psp_game.zip");
+            LogUtils.i(getFilesDir().getPath());
+            new UnzipTask().execute(getExternalFilesDir(null) + File.separator + "psp_game.zip");
         }
 
         @Override
@@ -130,9 +132,16 @@ public class DownloadActivity extends Activity {
         operatingAnim.setInterpolator(lin);
 
         String[] strs = getPackageName().split(".psp");
-        pspFileUrl = pspFileUrl + strs[1] + ".zip";
-        // 权限适配
-        askForStorageNetPermission();
+//        pspFileUrl = pspFileUrl + strs[1] + ".zip";
+        pspFileUrl = "http://i5.market.mi-img.com/download/AppStore/0cbbb5e219c77d9ff963b52e28f50438a5f41aa0a/com.and.games505.TerrariaPaid.zip";
+        // 判断iso文件是否存在
+        File isoFile = new File(getFilesDir().getPath(), "2826.iso");
+        if (isoFile.exists()) {
+            goMain();
+        }else {
+            // 权限适配
+            askForStorageNetPermission();
+        }
     }
 
     public static final int REQUEST_CODE_STORAGE_PERMISSION = 2537;
@@ -142,8 +151,11 @@ public class DownloadActivity extends Activity {
                 this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSION);
             }else {
                 downloadId = FileDownloader.getImpl().create(pspFileUrl).setAutoRetryTimes(3)
-                        .setPath("/sdcard/psp_game.zip").setListener(fileDownloadListener).start();
+                        .setPath(getExternalFilesDir(null) + File.separator + "psp_game.zip").setListener(fileDownloadListener).start();
             }
+        }else{
+            downloadId = FileDownloader.getImpl().create(pspFileUrl).setAutoRetryTimes(3)
+                    .setPath(getExternalFilesDir(null) + File.separator + "psp_game.zip").setListener(fileDownloadListener).start();
         }
     }
 
@@ -151,7 +163,7 @@ public class DownloadActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             downloadId = FileDownloader.getImpl().create(pspFileUrl).setAutoRetryTimes(3)
-                    .setPath("/sdcard/psp_game.zip").setListener(fileDownloadListener).start();
+                    .setPath(getExternalFilesDir(null) + File.separator + "psp_game.zip").setListener(fileDownloadListener).start();
         }else {
             finish();
         }
@@ -184,7 +196,7 @@ public class DownloadActivity extends Activity {
                                 final ResponseResult lS = lGson.fromJson(responseBody, ResponseResult.class);
                                 pspFileUrl = lS.getDownload_url();
                                 FileDownloader.getImpl().create(pspFileUrl).setAutoRetryTimes(3)
-                                        .setPath("/sdcard/psp_game.zip").setListener(fileDownloadListener).start();
+                                        .setPath(getExternalFilesDir(null) + File.separator + "psp_game.zip").setListener(fileDownloadListener).start();
                                 isFromXiaolu = true;
                             }else {
                                 finish();
@@ -306,7 +318,7 @@ public class DownloadActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            File outFile = new File(Environment.getExternalStorageDirectory(), "2826.iso");
+            File outFile = new File(getFilesDir().getPath(), "2826.iso");
             File file = new File(params[0]);
             if (outFile.exists()) {
                 return true;
@@ -326,6 +338,8 @@ public class DownloadActivity extends Activity {
                         InputStream in = zipFile.getInputStream(entry);
                         OutputStream out = new FileOutputStream(outFile);
                         IOUtils.in2out(in, out);
+                        // 移除zip包
+                        IOUtils.deleteFile(file);
                         return true;
                     }
                 }

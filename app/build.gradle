@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.xiaolu.psp91002"
+        applicationId "com.xiaolu.psp9100136"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
