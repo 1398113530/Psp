@@ -56,7 +56,7 @@ public class DownloadActivity extends Activity {
     private Animation operatingAnim;
     private int downloadId;
     private String pspFileUrl = "http://test-gd1.xiaoji001.com/rom/psp/";    //9100220 9100075
-    private String url2Xiaolu = "http://test.api.kuaiyouxi.com/game/simulator.php";
+    private String url2Xiaolu = "http://api.xiaolu123.com/game/simulator.php";
     private boolean isFromXiaolu = false;
 
     private FileDownloadListener fileDownloadListener = new FileDownloadListener() {
@@ -75,7 +75,7 @@ public class DownloadActivity extends Activity {
 
         @Override
         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            LogUtils.d(task.getFilename() + " : " + soFarBytes + " : " + totalBytes);
+            LogUtils.d(task.getFilename() + " : " + soFarBytes + " : " + totalBytes + "; 下载地址: " + task.getUrl());
             mDownloadState.setText("下载游戏文件 " + (int)((float)soFarBytes*100/totalBytes) + "%");
             int progress = (int) ((float)soFarBytes * 100/totalBytes);
             mProgressBar.setProgress(progress);
@@ -132,8 +132,8 @@ public class DownloadActivity extends Activity {
         operatingAnim.setInterpolator(lin);
 
         String[] strs = getPackageName().split(".psp");
-//        pspFileUrl = pspFileUrl + strs[1] + ".zip";
-        pspFileUrl = "http://i5.market.mi-img.com/download/AppStore/0cbbb5e219c77d9ff963b52e28f50438a5f41aa0a/com.and.games505.TerrariaPaid.zip";
+        pspFileUrl = pspFileUrl + strs[1] + ".zip";
+//        pspFileUrl = "http://i5.market.mi-img.com/download/AppStore/0cbbb5e219c77d9ff963b52e28f50438a5f41aa0a/com.and.games505.TerrariaPaid.zip";
         // 判断iso文件是否存在
         File isoFile = new File(getFilesDir().getPath(), "2826.iso");
         if (isoFile.exists()) {
