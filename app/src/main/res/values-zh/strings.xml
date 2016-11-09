@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">我的出租车</string>
+    <string name="shortcut_name">我的出租车</string>
+    <string name="bad_disc_message">你选择的这个文件不是一个游戏文件</string>
+    <string name="bad_disc_title">不知道的盘</string>
+    <string name="hello"></string>
+    <string name="game_resource_get">获取游戏资源...</string>
+    <string name="download_start">开始下载...</string>
+    <string name="download_game_file">"下载游戏文件 "</string>
+    <string name="download_complete">下载完成</string>
+    <string name="download_pause">下载暂停</string>
+    <string name="download_error">下载错误</string>
+    <string name="download_repeat">已经存在相同下载连接与相同存储路径的任务</string>
+    <string name="load_game">游戏加载中...</string>
+    <string name="enter_game">进入游戏...</string>
+</resources>

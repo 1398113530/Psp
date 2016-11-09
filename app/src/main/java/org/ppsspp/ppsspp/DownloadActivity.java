@@ -63,20 +63,20 @@ public class DownloadActivity extends Activity {
         @Override
         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
             LogUtils.d(task.getFilename() + " : " + soFarBytes + " : " + totalBytes);
-            mDownloadState.setText("游戏资源获取 ...");
+            mDownloadState.setText(R.string.game_resource_get);
             mProgressBar.setMax(100);
         }
 
         @Override
         protected void started(BaseDownloadTask task) {
             super.started(task);
-            mDownloadState.setText("开始下载 ...");
+            mDownloadState.setText(R.string.download_start);
         }
 
         @Override
         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
             LogUtils.d(task.getFilename() + " : " + soFarBytes + " : " + totalBytes + "; 下载地址: " + task.getUrl());
-            mDownloadState.setText("下载游戏文件 " + (int)((float)soFarBytes*100/totalBytes) + "%");
+            mDownloadState.setText(getString(R.string.download_game_file) + (int)((float)soFarBytes*100/totalBytes) + "%");
             int progress = (int) ((float)soFarBytes * 100/totalBytes);
             mProgressBar.setProgress(progress);
         }
@@ -85,7 +85,7 @@ public class DownloadActivity extends Activity {
         protected void completed(BaseDownloadTask task) {
             LogUtils.d(task.getFilename());
             mProgressBar.setProgress(100);
-            mDownloadState.setText("下载完成");
+            mDownloadState.setText(R.string.download_complete);
             LogUtils.i(getFilesDir().getPath());
             new UnzipTask().execute(getExternalFilesDir(null) + File.separator + "psp_game.zip");
         }
@@ -98,14 +98,14 @@ public class DownloadActivity extends Activity {
         @Override
         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
             LogUtils.d(task.getFilename() + " : " + soFarBytes + " : " + totalBytes);
-            mDownloadState.setText("下载暂停");
+            mDownloadState.setText(R.string.download_pause);
         }
 
         @Override
         protected void error(BaseDownloadTask task, Throwable e) {
             LogUtils.d(task.getFilename() + " :　" + e.getMessage());
             if (isFromXiaolu) {
-                mDownloadState.setText("下载错误");
+                mDownloadState.setText(R.string.download_error);
             }else {
                 retryXiaoluUrl();
             }
@@ -114,7 +114,7 @@ public class DownloadActivity extends Activity {
         @Override
         protected void warn(BaseDownloadTask task) {
             LogUtils.d(task.getFilename());
-            mDownloadState.setText("已经存在相同下载连接与相同存储路径的任务");
+            mDownloadState.setText(R.string.download_repeat);
         }
     };
 
@@ -313,7 +313,7 @@ public class DownloadActivity extends Activity {
             if (mProgressBar != null && operatingAnim != null) {
                 mProgressBar.startAnimation(operatingAnim);
             }
-            mDownloadState.setText("游戏加载中 ...");
+            mDownloadState.setText(R.string.load_game);
         }
 
         @Override
@@ -359,7 +359,7 @@ public class DownloadActivity extends Activity {
             if (mProgressBar != null && operatingAnim != null) {
                 mProgressBar.clearAnimation();
             }
-            mDownloadState.setText("进入游戏 ...");
+            mDownloadState.setText(R.string.enter_game);
             if (aBoolean) {
                 goMain();
             }else {
