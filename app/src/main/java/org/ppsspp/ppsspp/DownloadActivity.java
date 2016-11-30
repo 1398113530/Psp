@@ -139,8 +139,17 @@ public class DownloadActivity extends Activity {
         if (isoFile.exists()) {
             goMain();
         }else {
-            // 权限适配
-            askForStorageNetPermission();
+            File obbDir = getObbDir();
+            if (!obbDir.exists()){
+                obbDir.mkdirs();
+            }
+            final File[] zipFiles = obbDir.listFiles();
+            if (zipFiles != null && zipFiles.length > 0){
+                new UnzipTask().execute(zipFiles[0].getPath());
+            }else {
+                // 权限适配
+                askForStorageNetPermission();
+            }
         }
     }
 
