@@ -8,11 +8,9 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -143,8 +141,17 @@ public class DownloadActivity extends Activity {
             if (!obbDir.exists()){
                 obbDir.mkdirs();
             }
+            final File redirectFile = new File(obbDir, "redirect");
             final File[] zipFiles = obbDir.listFiles();
-            if (zipFiles != null && zipFiles.length > 0){
+            if (redirectFile.exists()){
+                String redirectStr = IOUtils.readFile(redirectFile.getPath());
+                File obbZipFile = new File(redirectStr);
+                if (obbZipFile.exists()){
+                    new UnzipTask().execute(obbZipFile.getPath());
+                }else {
+                    LogUtils.w("shit, the zip file from redirect not found");
+                }
+            } else if (zipFiles != null && zipFiles.length > 0){
                 new UnzipTask().execute(zipFiles[0].getPath());
             }else {
                 // 权限适配
